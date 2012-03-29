@@ -42,7 +42,7 @@ class MarkdownArticle extends FileArticle {
 	}
 
 	public function getXhtmlContent() {
-		require_once 'PHP Markdown/markdown.php';
+		require_once 'php-markdown/markdown.php';
 		return Markdown($this->getContent());
 	}
 }
