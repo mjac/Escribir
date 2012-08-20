@@ -3,24 +3,22 @@
 namespace Escribir;
 
 class DirectoryLibrary extends Library {
-	public function addFromPath($path) {
-		$fileIter = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
-		foreach ($fileIter as $file) {
-			$parser = $this->getFileParser($file);
-			if ($parser instanceof ArticleParser) {
-				$id = $this->getArticleId($path, $file);
-				$article = $parser->getArticle($id, $file);
+	public function addFromPath($libraryDir) {
+		$fileIterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($libraryDir));
+
+		foreach ($fileIterator as $fileInfo) {
+			$fileParser = $this->getFileParser($fileInfo);
+
+			if ($fileParser !== NULL) {
+				$articleId = $fileParser->getArticleId($libraryDir, $fileInfo);
+
+				$article = $fileParser->getArticle($articleId, $fileInfo);
+
 				if ($article !== NULL) {
-					$this[$id] = $article;
+					$this[$articleId] = $article;
 				}
 			}
 		}
-	}
-
-	protected function getArticleId($path, \SplFileInfo $file) {
-		return substr($file->getPathname(),
-			strlen($path) + 1,
-			-strlen($file->getExtension()) - 1);
 	}
 
 	public function getFileParser(\SplFileInfo $file) {
