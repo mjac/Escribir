@@ -4,13 +4,21 @@ namespace Escribir;
 
 class XhtmlDOMDocument extends \DOMDocument {
 	public function loadXhtml($data) {
-		$this->loadXML('<div>' . $data . '</div>');
+		$data = str_replace(array('&rsquo;', '&nbsp;'), array('&#8217;', '&#160;'), $data);
+		$loadSuccess = $this->loadXML('<div>' . $data . '</div>');
+
+		if (!$loadSuccess) {
+			return FALSE;
+		}
 
 		$domXPath = new \DOMXPath($this);
+
 		$nonEmpty = $domXPath->query('//iframe | //script');
 		foreach ($nonEmpty as $tag) {
 			$tag->appendChild($this->createTextNode(''));
 		}
+
+		return TRUE;
 	}
 
 	public function saveXhtml() {
