@@ -9,6 +9,7 @@ spl_autoload_register(function($className) {
 		return;
 	}
 
-	require dirname(__FILE__) . DIRECTORY_SEPARATOR
-		. substr($className, strlen($namespace)) . '.php';
+	$classRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+
+	require dirname(__FILE__) . DIRECTORY_SEPARATOR . substr($classRelativePath, strlen($namespace)) . '.php';
 });

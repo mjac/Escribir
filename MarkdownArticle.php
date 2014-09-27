@@ -42,7 +42,6 @@ class MarkdownArticle extends FileArticle {
 	}
 
 	public function getXhtmlContent() {
-		require_once 'php-markdown/Michelf/Markdown.inc.php';
 		return \Michelf\Markdown::defaultTransform($this->getContent());
 	}
 }
