@@ -6,10 +6,8 @@ abstract class ArticleParser {
 	abstract public function getArticle($id, \SplFileInfo $file);
 
 	public function getArticleId($path, \SplFileInfo $file) {
-		return substr(
-			$file->getPathname(),
-			strlen($path) + 1,
-			-strlen($file->getExtension()) - 1
-		);
+		$articlePath = $file->getPathname();
+		$articleId = substr($articlePath, strlen($path) + 1, -strlen($file->getExtension()) - 1);
+		return str_replace(DIRECTORY_SEPARATOR, '/', $articleId);
 	}
 }

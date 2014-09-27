@@ -2,7 +2,11 @@
 
 namespace Escribir;
 
-class DirectoryLibrary extends Library {
+class DirectoryLibrary extends Library implements IArticleProvider {
+	public function getArticles() {
+		return $this->articles;
+	}
+
 	public function addFromPath($libraryDir) {
 		$fileIterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($libraryDir));
 
@@ -15,7 +19,7 @@ class DirectoryLibrary extends Library {
 				$article = $fileParser->getArticle($articleId, $fileInfo);
 
 				if ($article !== NULL) {
-					$this[$articleId] = $article;
+					$this->articles[$articleId] = $article;
 				}
 			}
 		}
@@ -32,7 +36,6 @@ class DirectoryLibrary extends Library {
 	}
 
 	public function filter($articleFilter) {
-		$this->exchangeArray(array_filter((array)$this, $articleFilter));
-		
+		$this->articles = array_filter($this->articles, $articleFilter);
 	}
 }

@@ -3,5 +3,5 @@
 namespace Escribir;
 
 interface LibrarySearch {
-	public function addLibrary(\Traversable $library);
+	public function addLibrary(IArticleProvider $library);
 }

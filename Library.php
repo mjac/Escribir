@@ -2,11 +2,16 @@
 
 namespace Escribir;
 
-abstract class Library extends \ArrayObject {
+abstract class Library {
 	protected $parsers;
+	protected $articles = array();
 
 	public function __construct() {
 		$this->parsers = new \SplObjectStorage();	
+	}
+	
+	public function getArticles() {
+		return $this->articles;
 	}
 
 	public function addParser(ArticleParser $parser) {
@@ -16,7 +21,7 @@ abstract class Library extends \ArrayObject {
 	public function sortArticles($fieldGetter, $ascending = true) {
 		$orderSwitch = $ascending ? 1 : -1;
 
-		$this->uasort(function ($a, $b) use ($fieldGetter, $orderSwitch) {
+		uasort($this->articles, function ($a, $b) use ($fieldGetter, $orderSwitch) {
 			$aDate = $fieldGetter($a);
 			$bDate = $fieldGetter($b);
 

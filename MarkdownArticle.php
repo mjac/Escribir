@@ -30,7 +30,7 @@ class MarkdownArticle extends FileArticle {
 		$record = FALSE;
 		$fileObj = new \SplFileObject($this->filename);
 		foreach ($fileObj as $line) {
-			if ($line === "\n") {
+			if ($line === PHP_EOL) {
 				$record = TRUE;
 			}
 			if ($record) {
@@ -42,7 +42,7 @@ class MarkdownArticle extends FileArticle {
 	}
 
 	public function getXhtmlContent() {
-		require_once 'php-markdown/markdown.php';
-		return Markdown($this->getContent());
+		require_once 'php-markdown/Michelf/Markdown.inc.php';
+		return \Michelf\Markdown::defaultTransform($this->getContent());
 	}
 }
